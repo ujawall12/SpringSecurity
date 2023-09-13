@@ -19,6 +19,5 @@ public class TodoResource {
         return TODO_LIST;
     }
 
-
 }
 record Todo(String usernmae, String description){}
