@@ -1,19 +1,24 @@
 package com.springboot3.springsecurity.BasicAuthentication;
 
+import org.slf4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-@Configuration(proxyBeanMethods = false)
+//@Configuration(proxyBeanMethods = false)
 public class BasicAuthenticationSecurityConfiguration {
 
     @Bean
@@ -26,7 +31,7 @@ public class BasicAuthenticationSecurityConfiguration {
                 });
 
 
-        // to diable sessions in http by making it stateless
+        // to disable sessions in http by making it stateless
         http.sessionManagement(
                 session -> session.sessionCreationPolicy(
                         SessionCreationPolicy.STATELESS)
@@ -45,20 +50,34 @@ public class BasicAuthenticationSecurityConfiguration {
 
         return http.build();
     }
-    /*
+
     @Bean
     public UserDetailsService userDetailsService(){
 
-        var user = User.withUsername("userUjawall").password("{noop}ujawall123").roles("USER").build();
-        var admin= User.withUsername("adminUjawall").password("{noop}ujawall123").roles("ADMIN").build();
+        var user = User.withUsername("userUjawall")
+                .password("{noop}ujawall123")
+                .passwordEncoder(str-> bCryptPasswordEncoder().encode(str))
+                .roles("USER")
+                .build();
+        var admin= User.withUsername("adminUjawall").password("{noop}ujawall123")
+                .passwordEncoder(str-> bCryptPasswordEncoder().encode(str))
+                .roles("ADMIN").build();
+
+
         return new InMemoryUserDetailsManager(user,admin);
     }
-     */
+
 
     @Bean
     public DataSource dataSource(){
         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
                 .addScript(JdbcDaoImpl.DEFAULT_USER_SCHEMA_DDL_LOCATION).build();
     }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
 
 }
