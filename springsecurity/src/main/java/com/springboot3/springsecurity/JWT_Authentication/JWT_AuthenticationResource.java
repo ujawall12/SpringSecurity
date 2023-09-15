@@ -1,5 +1,9 @@
 package com.springboot3.springsecurity.JWT_Authentication;
 
+
+/* ************************ COMMENTED FOR IMPLEMENTING OAUTH***********************************
+***********************************************************************************************
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -45,3 +49,5 @@ public class JWT_AuthenticationResource {
 
 }
 record JwtResponse (String token){}
+
+ */

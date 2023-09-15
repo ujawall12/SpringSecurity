@@ -2,8 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="springsecurity.springsecurity.main" target="17" />
-      <module name="springsecurity.springsecurity.test" target="17" />
+      <module name="springsecurity.springsecurity.main~1" target="17" />
+      <module name="springsecurity.springsecurity.test~1" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
